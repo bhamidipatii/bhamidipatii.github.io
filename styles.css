@@ -983,3 +983,6 @@ html.menu-open .nav__clocks { opacity: 0; }
 /* v3: slightly larger wordmark + morphing shape */
 .nav__logo { font-size: 22px; gap: 9px; }
 .nav__logo i { width: 12px; height: 12px; }
+
+/* travel card: breathing room between heading and paragraph */
+.c-globe h3 { margin-bottom: 14px; }
