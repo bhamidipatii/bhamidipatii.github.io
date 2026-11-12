@@ -308,7 +308,7 @@ const route = $("#route");
 if (route) {
   const len = route.getTotalLength();
   const pins = $$(".log__map .pin"), stops = $$(".stop"), status = $(".log__status");
-  const names = ["Departed: HYD", "Landed: Ithaca", "Landed: Charlotte", "Landed: Boise", "Landed: San Francisco", "Home: Mumbai"];
+  const names = ["Departed: HYD", "Landed: Ithaca", "Landed: New York", "Landed: Charlotte", "Landed: Boise", "Landed: San Francisco", "Home: Mumbai"];
   // find where along the path each pin sits (fraction 0–1)
   const marks = pins.map((p) => {
     const m = p.getAttribute("transform").match(/translate\(([\d.]+)[ ,]+([\d.]+)\)/);
