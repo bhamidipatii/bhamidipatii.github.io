@@ -53,7 +53,7 @@ mark { background: linear-gradient(transparent 55%, var(--lime) 55%, var(--lime)
 .loader__route { display: flex; justify-content: space-between; font-family: var(--display); font-size: 44px; font-weight: 700; letter-spacing: -.02em; }
 .loader__bar { position: relative; height: 1px; background: rgba(255,255,255,.2); margin: 18px 0 12px; }
 .loader__bar i { position: absolute; inset: 0; background: var(--lime); transform: scaleX(0); transform-origin: left; }
-.loader__plane { position: absolute; top: -9px; left: 0; width: 18px; height: 18px; fill: var(--lime); transform: translateX(-50%) rotate(90deg); }
+.loader__plane { position: absolute; top: -9px; left: 0; width: 18px; height: 18px; fill: var(--lime); transform: translateX(-50%); }
 .loader__meta { display: flex; justify-content: space-between; color: rgba(255,255,255,.55); }
 html.no-loader .loader { display: none; }
 
