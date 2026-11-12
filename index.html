@@ -18,18 +18,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=202611130007" />
+  <link rel="stylesheet" href="styles.css?v=20261113015511" />
 </head>
 <body data-page="home">
   <!-- Loader: boarding BOM → SFO → BOM -->
+  <!-- Loader: a pile of boarding passes from Aditya's travels; the SFO → BOM pass lands last and flies into the hero -->
   <div class="loader" aria-hidden="true">
-    <div class="loader__inner">
-      <div class="loader__route"><span>SFO</span><span>→</span><span>BOM</span></div>
-      <div class="loader__bar"><i></i>
-        <svg class="loader__plane" viewBox="-15 -12 30 24"><path d="M14 0 L4 -2 L-2 -11 L-6 -11 L-2 -2 L-9 -2 L-12 -6 L-14 -6 L-12 0 L-14 6 L-12 6 L-9 2 L-2 2 L-6 11 L-2 11 L4 2 Z"/></svg>
-      </div>
-      <div class="loader__meta mono"><span>Now boarding</span><span class="loader__pct">0%</span></div>
-    </div>
+    <div class="cabin cabin--top mono"><span>Boarding passes collected</span><b class="count">00</b></div>
+    <div class="pile"></div>
+    <div class="cabin cabin--bottom mono"><span class="phase">Every trip, one pass at a time</span></div>
+    <button type="button" class="unmute mono" data-unmute aria-pressed="false">Click to unmute</button>
   </div>
   <div class="curtain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"><span>View</span></div>
@@ -68,7 +66,7 @@
 
         <!-- Boarding pass: the "typical US-return" -->
         <div class="pass-wrap" data-fade>
-          <article class="pass" data-tilt aria-label="One-way boarding pass: San Francisco to Mumbai">
+          <article class="pass" aria-label="One-way boarding pass: San Francisco to Mumbai">
             <div class="pass__main">
               <header class="pass__head mono"><span>Boarding pass</span><b>Flight AB 2026</b></header>
               <div class="pass__route">
@@ -92,6 +90,7 @@
                 <div><dt class="mono">Baggage</dt><dd>Cornell, Lowe’s, Micron</dd></div>
                 <div><dt class="mono">Status</dt><dd class="pass__status">Returned · Building</dd></div>
               </dl>
+              <div class="arrived-stamp" aria-hidden="true"><small>Arrived</small><b>BOM</b><small>2026</small></div>
             </div>
             <div class="pass__stub">
               <span class="mono muted">SFO → BOM</span>
@@ -476,7 +475,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="main.js?v=202611130007"></script>
-  <script type="module" src="globe.js?v=202611130007"></script>
+  <script src="main.js?v=20261113015511"></script>
+  <script type="module" src="globe.js?v=20261113015511"></script>
 </body>
 </html>

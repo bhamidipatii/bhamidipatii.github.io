@@ -785,3 +785,201 @@ html.menu-open .nav__clocks { opacity: 0; }
 @supports not (aspect-ratio: 1 / 1) {
   @media (max-width: 520px) { .shot.wide { padding-top: 75%; } }
 }
+
+/* =========================================================
+   v3 LOADER: window seat, landing in Mumbai
+   The window's giant box-shadow *is* the cabin wall, so growing the
+   window at the end "opens" it onto the homepage underneath.
+   ========================================================= */
+.loader { display: block; background: transparent; color: var(--paper); overflow: hidden; cursor: pointer; }
+.window {
+  position: absolute; left: 50%; top: 50%;
+  width: clamp(170px, 22vw, 260px); height: clamp(236px, 30.5vw, 360px);
+  border-radius: 46% / 34%; overflow: hidden; will-change: width, height, transform;
+  box-shadow: 0 0 0 12px #242424, 0 0 0 14px #3a3a3a, 0 0 0 16px #1a1a1a, 0 0 0 220vmax #121212;
+}
+.sky {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #050b24 0%, #13205e 30%, #3d2bff 52%, #ff7f57 76%, #ffd29e 100%);
+  background-size: 100% 260%; background-position: 0% 0%;
+}
+.sun { position: absolute; left: 50%; bottom: -30%; width: 160%; height: 70%; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255,214,160,.85), rgba(255,140,90,.25) 60%, transparent); opacity: .0; }
+.clouds { position: absolute; inset: 0; }
+.cloud { position: absolute; top: 0; display: block; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255,255,255,.95), rgba(255,255,255,.55) 45%, rgba(255,255,255,0)); filter: blur(3px); will-change: transform; }
+.city {
+  position: absolute; left: -30%; right: -30%; bottom: -10%; height: 75%;
+  transform-origin: 50% 100%;
+  background:
+    radial-gradient(circle, rgba(255,210,122,.95) 0 1.2px, transparent 1.8px) 0 0 / 11px 9px,
+    radial-gradient(circle, rgba(212,255,58,.9) 0 1px, transparent 1.6px) 5px 4px / 17px 13px,
+    radial-gradient(circle, rgba(255,255,255,.8) 0 .8px, transparent 1.4px) 2px 6px / 7px 11px,
+    linear-gradient(180deg, transparent 0%, #0a0a16 22%, #070710 100%);
+  -webkit-mask: linear-gradient(180deg, transparent 0%, #000 30%); mask: linear-gradient(180deg, transparent 0%, #000 30%);
+}
+.city-wrap { perspective: 260px; }
+.landed { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; z-index: 2;
+  font-family: var(--display); font-weight: 700; font-size: clamp(26px, 2.6vw, 34px); line-height: .95; letter-spacing: -.02em; color: #fff;
+  text-shadow: 0 2px 18px rgba(0,0,0,.5); opacity: 0; }
+.shade { position: absolute; inset: 0; z-index: 3; background: linear-gradient(180deg, #ecebe4, #d9d6cc); border-bottom: 7px solid #bcb8ad; }
+.shade i { position: absolute; left: 50%; bottom: 10px; width: 44px; height: 6px; margin-left: -22px; border-radius: 4px; background: #a9a597; }
+.glare { position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,.2), transparent 38%, transparent 70%, rgba(255,255,255,.06));
+  box-shadow: inset 0 0 36px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.06); }
+.cabin { position: absolute; left: 0; right: 0; z-index: 5; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 28px; padding: 0 16px; color: rgba(243,242,236,.5); }
+.cabin--top { top: 9vh; } .cabin--bottom { bottom: 9vh; }
+.cabin b { color: var(--lime); font-weight: 500; font-variant-numeric: tabular-nums; }
+.cabin .phase { color: rgba(243,242,236,.85); }
+@media (max-width: 600px) { .cabin { gap: 6px 14px; font-size: 10px; } .cabin--top { top: 8vh; } .cabin--bottom { bottom: 8vh; } }
+/* v3 loader: brighter, taller city with a lime runway converging in perspective */
+.city { height: 92%; bottom: -8%; left: -45%; right: -45%;
+  background:
+    radial-gradient(circle, rgba(255,210,122,1) 0 1.6px, transparent 2.3px) 0 0 / 12px 10px,
+    radial-gradient(circle, rgba(212,255,58,.95) 0 1.3px, transparent 2px) 6px 5px / 19px 15px,
+    radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.7px) 3px 7px / 8px 12px,
+    linear-gradient(180deg, transparent 0%, #0b0b1a 18%, #06060e 100%);
+  -webkit-mask: linear-gradient(180deg, transparent 0%, #000 22%); mask: linear-gradient(180deg, transparent 0%, #000 22%); }
+.city::after {
+  content: ""; position: absolute; left: 46%; width: 8%; top: 20%; bottom: 0;
+  border-left: 3px dashed var(--lime); border-right: 3px dashed var(--lime);
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.95) 0 10px, transparent 10px 24px) 50% 0 / 2px 100% no-repeat, rgba(10,10,20,.92);
+  filter: drop-shadow(0 0 4px rgba(212,255,58,.8));
+}
+
+/* =========================================================
+   v3 LOADER (current): a pile of boarding passes
+   ========================================================= */
+.loader { background: #121212; }
+.pile { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.mini {
+  position: absolute; left: 0; top: 0; width: var(--mw, 280px);
+  display: grid; grid-template-columns: 1fr 62px; overflow: hidden;
+  background: var(--card); color: var(--ink); border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 22px 34px -14px rgba(0,0,0,.65), 0 2px 6px rgba(0,0,0,.25);
+  will-change: transform;
+}
+.mini::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--c); }
+.mini__main { padding: 14px 14px 12px; }
+.mini__head { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
+.mini__route { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 8px; }
+.mini__route b { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 7vw, 34px); letter-spacing: -.02em; line-height: 1; }
+.mini__route i { font-style: normal; font-size: 14px; color: var(--muted); flex: 1; text-align: center; }
+.mini__cities { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); margin-top: 4px; }
+.mini__stub { border-left: 2px dashed var(--line); padding: 12px 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 8px; }
+.mini__stub span { font-size: 10px; color: var(--ink); font-weight: 500; }
+.mini__stub em { display: block; width: 32px; flex: 1; min-height: 48px;
+  background: repeating-linear-gradient(180deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 8px); }
+.pass--flying { pointer-events: none; will-change: transform; }
+.loader .cabin { gap: 10px 22px; }
+.loader .cabin b { font-size: 12px; }
+
+
+/* =========================================================
+   v3 LOADER polish: worn passes + ARRIVED stamp
+   ========================================================= */
+/* worn, travelled-with passes */
+.mini .wear { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; }
+.mini.is-crease .wear { background: linear-gradient(102deg, transparent 47%, rgba(0,0,0,.08) 49%, rgba(255,255,255,.6) 50%, transparent 53%); }
+.mini.is-corner .wear { background: radial-gradient(circle at var(--corner, 0% 0%), rgba(176,132,64,.28) 0%, rgba(176,132,64,.12) 22%, transparent 42%); }
+.mini.is-punch .mini__stub {
+  -webkit-mask: radial-gradient(circle 6px at 50% calc(100% - 13px), transparent 97%, #000 100%);
+          mask: radial-gradient(circle 6px at 50% calc(100% - 13px), transparent 97%, #000 100%); }
+.mini.is-dogear .mini__stub {
+  -webkit-mask: linear-gradient(225deg, transparent 13px, #000 13.5px); mask: linear-gradient(225deg, transparent 13px, #000 13.5px); }
+.mini.is-dogear .mini__stub::after { content: ""; position: absolute; right: 0; top: 0; width: 18px; height: 18px;
+  background: linear-gradient(45deg, #e6e1d4 50%, transparent 50%); box-shadow: -1px 1px 2px rgba(0,0,0,.15); }
+.mini__stub { position: relative; }
+
+/* the ARRIVED · BOM ink stamp (stays on the hero boarding pass) */
+.arrived-stamp {
+  position: absolute; right: 22px; bottom: 16px; z-index: 2;
+  display: grid; place-items: center; gap: 1px; padding: 7px 15px 6px;
+  border: 3px solid #e5484d; border-radius: 10px; color: #e5484d;
+  box-shadow: inset 0 0 0 2px var(--card), inset 0 0 0 3.5px rgba(229,72,77,.55);
+  font-family: var(--mono); text-transform: uppercase; line-height: 1;
+  transform: rotate(-11deg); opacity: .85; mix-blend-mode: multiply; pointer-events: none;
+  -webkit-mask: radial-gradient(circle at 30% 40%, transparent 0 .7px, #000 1.2px) 0 0 / 7px 6px;
+          mask: radial-gradient(circle at 30% 40%, transparent 0 .7px, #000 1.2px) 0 0 / 7px 6px;
+}
+.arrived-stamp small { font-size: 9px; letter-spacing: .16em; }
+.arrived-stamp b { font-family: var(--display); font-weight: 700; font-size: 30px; letter-spacing: -.01em; }
+@media (max-width: 520px) { .arrived-stamp { right: 14px; bottom: 12px; padding: 5px 9px 4px; } .arrived-stamp b { font-size: 19px; } }
+
+/* Boarding-pass shadow lives on the (never-tilting) wrapper: a filter on the 3D-tilting pass
+   gets dropped by the browser on hover, which made the shadow vanish. */
+.pass { filter: none; }
+.pass-wrap { filter: drop-shadow(0 26px 26px rgba(18,18,18,.16)) drop-shadow(0 1px 1px rgba(18,18,18,.08)); }
+.pass--flying { filter: drop-shadow(0 26px 26px rgba(18,18,18,.16)) drop-shadow(0 1px 1px rgba(18,18,18,.08)); }
+/* stronger, clearly visible lift under the boarding pass (rest + hover) */
+.pass-wrap, .pass--flying { filter: drop-shadow(0 28px 26px rgba(18,18,18,.26)) drop-shadow(0 6px 8px rgba(18,18,18,.12)); }
+/* Shadow as its own layer behind the card (filters can be dropped around 3D-tilting elements) */
+.pass-wrap { filter: none; }
+.pass-wrap::before {
+  content: ""; position: absolute; inset: 8px 14px 2px; border-radius: 18px; z-index: 0; pointer-events: none;
+  box-shadow: 0 34px 48px -16px rgba(18,18,18,.42), 0 12px 20px -10px rgba(18,18,18,.22);
+}
+.pass-wrap .pass { position: relative; z-index: 1; }
+/* back to the original soft shadow look (kept on the wrapper so it survives the hover tilt/tear) */
+.pass-wrap::before { content: none; }
+.pass-wrap, .pass--flying { filter: drop-shadow(0 26px 26px rgba(18,18,18,.16)) drop-shadow(0 1px 1px rgba(18,18,18,.08)); }
+/* hero boarding pass: exactly the shadow the passes have once they land on the loader pile */
+.pass-wrap { filter: none; }
+.pass-wrap::before {
+  content: ""; position: absolute; inset: 0; border-radius: 18px; z-index: 0; pointer-events: none;
+  box-shadow: 0 22px 34px -14px rgba(0,0,0,.65), 0 2px 6px rgba(0,0,0,.25);
+}
+.pass-wrap .pass { position: relative; z-index: 1; }
+.pass--flying { filter: none; box-shadow: 0 22px 34px -14px rgba(0,0,0,.65), 0 2px 6px rgba(0,0,0,.25); border-radius: 18px; }
+
+.pass-wrap.is-waiting::before { opacity: 0; }
+/* Shadow back on the pass itself so it follows the main ticket and the torn stub separately (no ghost card).
+   preserve-3d was what made browsers drop the filter on hover; the pass is flat, so it isn't needed. */
+.pass-wrap::before { content: none; }
+.pass-wrap { filter: none; }
+.pass, .pass--flying {
+  transform-style: flat;
+  filter: drop-shadow(0 18px 16px rgba(0,0,0,.4)) drop-shadow(0 2px 4px rgba(0,0,0,.22));
+}
+.pass--flying { box-shadow: none; }
+
+/* loader: small "click to unmute" line under the bottom text */
+.unmute {
+  position: absolute; left: 50%; bottom: calc(9vh - 30px); transform: translateX(-50%); z-index: 6;
+  padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(243,242,236,.45); border: 1px solid rgba(243,242,236,.12); background: transparent; white-space: nowrap;
+  transition: color .3s, border-color .3s, background .3s;
+}
+.unmute:hover { color: var(--paper); border-color: rgba(243,242,236,.35); }
+.unmute[aria-pressed="true"] { color: var(--lime); border-color: rgba(212,255,58,.4); }
+@media (max-width: 600px) { .unmute { bottom: calc(8vh - 28px); } }
+
+/* Desktop pass: the punch notches are real holes now (they used to be cream circles drawn on top,
+   which the drop-shadow outlined as bumps). Each half of the main ticket gets its own half-hole. */
+@media (min-width: 521px) {
+  .pass__main::before, .pass__main::after { display: none; }
+  .pass__main {
+    -webkit-mask: radial-gradient(circle 10px at 100% 0, #0000 96%, #000 100%) top / 100% 51% no-repeat,
+                  radial-gradient(circle 10px at 100% 100%, #0000 96%, #000 100%) bottom / 100% 51% no-repeat;
+            mask: radial-gradient(circle 10px at 100% 0, #0000 96%, #000 100%) top / 100% 51% no-repeat,
+                  radial-gradient(circle 10px at 100% 100%, #0000 96%, #000 100%) bottom / 100% 51% no-repeat;
+  }
+}
+
+/* =========================================================
+   Boarding pass shadow, final: plain box-shadows on the two paper pieces.
+   No CSS filters (some browsers drop them when children move, e.g. Safari on the stub tear),
+   no masks on the pieces (masks would clip their own shadow), no tilt.
+   ========================================================= */
+.pass, .pass--flying, .pass-wrap { filter: none !important; }
+.pass-wrap::before { content: none !important; }
+.pass--flying { box-shadow: none !important; }
+.pass__main, .pass__stub { box-shadow: 0 22px 34px -14px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.2); }
+.pass__main, .pass__stub { -webkit-mask: none !important; mask: none !important; }
+@media (min-width: 521px) {
+  .pass__main::before, .pass__main::after { display: block; }   /* cream punch notches, as originally */
+}
+
+/* v3: slightly larger wordmark + morphing shape */
+.nav__logo { font-size: 22px; gap: 9px; }
+.nav__logo i { width: 12px; height: 12px; }
