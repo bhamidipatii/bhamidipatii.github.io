@@ -743,3 +743,25 @@ html.menu-open .nav__clocks { opacity: 0; }
 .nav.is-solid { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(243,242,236,.9); }
 /* hint the browser to keep moving parts on the GPU */
 .ticker__track, .pass, .menu__inner, .menu__wash, .cursor { will-change: transform; }
+
+/* =========================================================
+   Boarding pass on touch screens: tap to tear, tap again to restore
+   (hover is ignored on touch so the tear doesn't get "stuck")
+   ========================================================= */
+@media (hover: none) {
+  .pass { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .pass:hover .pass__stub, .pass:hover .pass__main { transform: none; }
+  .pass.is-torn .pass__stub { transform: translate(7px, 3px) rotate(8deg); }
+  .pass.is-torn .pass__main { transform: rotate(-.6deg); }
+}
+/* phones: the stub sits under the ticket, so it tears downward along the dashed line */
+@media (max-width: 520px) {
+  .pass__stub {
+    transform-origin: 0% 0%;
+    /* ragged torn top edge, matching the desktop version */
+    -webkit-mask: linear-gradient(#000 0 0) 0 5px / 100% calc(100% - 5px) no-repeat, conic-gradient(from 135deg at 50% 0, #000 90deg, #0000 0) 0 0 / 7px 5px repeat-x;
+            mask: linear-gradient(#000 0 0) 0 5px / 100% calc(100% - 5px) no-repeat, conic-gradient(from 135deg at 50% 0, #000 90deg, #0000 0) 0 0 / 7px 5px repeat-x;
+  }
+  .pass.is-torn .pass__stub { transform: translate(4px, 16px) rotate(4deg); }
+  .pass.is-torn .pass__main { transform: rotate(-.8deg); }
+}

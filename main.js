@@ -246,6 +246,18 @@ if (canHover && !reduceMotion) {
     card.addEventListener("pointerleave", () => { rx(0); ry(0); });
   });
 }
+// touch screens: tap the boarding pass to tear the stub off, tap again to put it back
+if (!canHover) {
+  $$(".pass").forEach((pass) => {
+    pass.setAttribute("role", "button");
+    pass.setAttribute("aria-pressed", "false");
+    pass.addEventListener("click", () => {
+      const torn = pass.classList.toggle("is-torn");
+      pass.setAttribute("aria-pressed", String(torn));
+      if (navigator.vibrate) navigator.vibrate(torn ? 12 : 6);   // tiny haptic "rip" where supported
+    });
+  });
+}
 
 /* ---------- Ticker ---------- */
 $$(".ticker__track").forEach((track) => {
