@@ -225,6 +225,9 @@ function runIntro() {
   const colors = ["#d4ff3a", "#3d2bff", "#e5484d", "#121212", "#ff9a3d", "#19a974"];
   const mw = Math.min(300, innerWidth * 0.72);
   pile.style.setProperty("--mw", mw + "px");
+  // phones: sit the whole pile a little lower so there is less empty space under the unmute line
+  const shiftY = innerWidth <= 600 ? Math.round(innerHeight * 0.015) : 0;
+  pile.style.top = `calc(50% + ${shiftY}px)`;
   const minis = trips.map(([fc, fcity, tc, tcity], i) => {
     const el = document.createElement("div");
     const wear = [i % 3 === 0 && "is-punch", i % 4 === 1 && "is-crease", i % 5 === 2 && "is-corner", i % 7 === 4 && i % 3 !== 0 && "is-dogear"].filter(Boolean);
@@ -245,7 +248,7 @@ function runIntro() {
   document.body.appendChild(fly);
   gsap.set(real, { opacity: 0 }); real.parentNode.classList.add("is-waiting");   // hide its shadow too until it lands
   const s = Math.min(1, (mw * 1.25) / r0.width);
-  const dx = innerWidth / 2 - (r0.left + r0.width / 2), dy = innerHeight / 2 - (r0.top + r0.height / 2);
+  const dx = innerWidth / 2 - (r0.left + r0.width / 2), dy = innerHeight / 2 + shiftY - (r0.top + r0.height / 2);
   gsap.set(fly, { x: dx, y: dy - innerHeight, scale: s * 1.25, rotate: -16 });
   const stamp = $(".arrived-stamp", fly);
   gsap.set(stamp, { opacity: 0 });
@@ -321,8 +324,10 @@ window.addEventListener("pageshow", (e) => { if (e.persisted) gsap.set(".curtain
 /* ---------- Cursor ---------- */
 if (canHover && !reduceMotion) {
   const cursor = $(".cursor"), label = $("span", cursor);
-  const xTo = gsap.quickTo(cursor, "x", { duration: 0.3, ease: "power3" });
-  const yTo = gsap.quickTo(cursor, "y", { duration: 0.3, ease: "power3" });
+  // Figma-style arrow: tip sits exactly on the pointer; hover labels show as a multiplayer-style name tag
+  cursor.insertAdjacentHTML("afterbegin", '<svg class="cursor__arrow" viewBox="0 0 24 25" aria-hidden="true"><path d="M2 2 L20.3 10.8 L11.8 13.4 L5.9 21.9 Z"/></svg>');
+  const xTo = gsap.quickTo(cursor, "x", { duration: 0.08, ease: "power3" });
+  const yTo = gsap.quickTo(cursor, "y", { duration: 0.08, ease: "power3" });
   window.addEventListener("pointermove", (e) => { xTo(e.clientX); yTo(e.clientY); });
   document.addEventListener("pointerover", (e) => {
     const big = e.target.closest("[data-cursor]");

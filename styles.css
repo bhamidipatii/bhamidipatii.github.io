@@ -986,3 +986,38 @@ html.menu-open .nav__clocks { opacity: 0; }
 
 /* travel card: breathing room between heading and paragraph */
 .c-globe h3 { margin-bottom: 14px; }
+
+/* =========================================================
+   v3 CURSOR: Figma-style arrow + name-tag label
+   ========================================================= */
+.cursor, .cursor.is-big, .cursor.is-link, .cursor.is-draw {
+  width: 0; height: 0; margin: 0; border: 0; border-radius: 0; background: none; mix-blend-mode: normal;
+  display: block; transition: none;
+}
+.cursor__arrow {
+  position: absolute; left: -3px; top: -3px; width: 22px; height: 23px; overflow: visible;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.28));
+  transform-origin: 3px 3px; transition: transform .35s var(--ease);
+}
+.cursor__arrow path { fill: #2a2a2a; stroke: #fff; stroke-width: 2; stroke-linejoin: round; transition: fill .25s; }
+.cursor.is-link .cursor__arrow { transform: scale(1.12); }
+.cursor.is-link .cursor__arrow path { fill: var(--accent); }
+.cursor.is-draw .cursor__arrow { transform: scale(.8); }
+.cursor span {
+  position: absolute; left: 16px; top: 19px; padding: 5px 9px; border-radius: 3px 10px 10px 10px;
+  background: var(--lime); color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,.18);
+  opacity: 0; transform: scale(.7); transform-origin: 0 0; transition: opacity .2s, transform .35s var(--ease);
+}
+.cursor.is-big span { opacity: 1; transform: none; }
+.cursor.is-big .cursor__arrow path { fill: var(--accent); }
+
+/* cursor: very slightly larger arrow */
+.cursor__arrow { width: 24px; height: 25px; }
+.cursor span { left: 17px; top: 21px; }
+
+/* loader on phones: everything sits a little lower (pile shift is in main.js) */
+@media (max-width: 600px) {
+  .loader .cabin--top { top: 9.5vh; }
+  .loader .cabin--bottom { bottom: calc(6.5vh + 34px); }
+  .unmute { bottom: 6.5vh; }
+}
