@@ -562,7 +562,24 @@ $$("[data-src]").forEach((slot) => {
     img.onerror = () => tryNext(i + 1);
     img.src = base + exts[i];
   };
-  // load each photo only when it's about a screen away, so the first paint stays light
+  // photos already written into the HTML (case pages) load natively; just finish their styling
+  const pre = slot.querySelector(":scope > img");
+  if (pre) {
+    const done = () => {
+      slot.classList.add("has-img");
+      if (slot.dataset.fit === "contain") {
+        try {
+          const c = document.createElement("canvas"); c.width = c.height = 1;
+          const g = c.getContext("2d"); g.drawImage(pre, 2, 2, 1, 1, 0, 0, 1, 1);
+          const [r, gr, b] = g.getImageData(0, 0, 1, 1).data;
+          slot.style.background = `rgb(${r}, ${gr}, ${b})`;
+        } catch (e) {}
+      }
+    };
+    pre.complete && pre.naturalWidth ? done() : pre.addEventListener("load", done, { once: true });
+    return;
+  }
+  // otherwise load each photo only when it's about a screen away, so the first paint stays light
   lazyIO.observe(slot); slot._load = () => tryNext(0);
 });
 
