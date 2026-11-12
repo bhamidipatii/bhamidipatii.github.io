@@ -253,9 +253,12 @@ $$(".ticker__track").forEach((track) => {
   if (reduceMotion) return;
   let x = 0, dir = -1, boost = 0;
   if (lenis) lenis.on("scroll", ({ velocity }) => { boost = Math.min(Math.abs(velocity) * 0.4, 10); if (velocity) dir = velocity > 0 ? -1 : 1; });
+  const band = track.closest(".ticker");
+  let w = track.scrollWidth / 2;
+  addEventListener("resize", () => (w = track.scrollWidth / 2));
   gsap.ticker.add(() => {
+    if (band.classList.contains("is-offscreen")) return;   // rest when not visible
     x += dir * (0.6 + boost); boost *= 0.92;
-    const w = track.scrollWidth / 2;
     if (x <= -w) x += w; if (x > 0) x -= w;
     gsap.set(track, { x });
   });
@@ -377,6 +380,11 @@ if (runner) {
     },
   });
   if (reduceMotion) tween.pause(0);
+  else {
+    const box = runner.closest(".cell");
+    box.addEventListener("offscreen", () => tween.pause());
+    box.addEventListener("onscreen", () => tween.resume());
+  }
 }
 
 /* ---------- Ritual AI: voice-logging demo ---------- */
@@ -503,6 +511,20 @@ const clocks = $$("[data-clock]");
 const tick = () => clocks.forEach((c) => (c.textContent = new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: c.dataset.clock })));
 tick(); setInterval(tick, 15000);
 
+/* ---------- Performance: animations rest while they're off-screen ---------- */
+const offscreenIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+  const el = e.target, on = e.isIntersecting;
+  el.classList.toggle("is-offscreen", !on);                         // CSS pauses keyframe animations
+  $$("svg", el).forEach((s) => { try { on ? s.unpauseAnimations() : s.pauseAnimations(); } catch (_) {} });  // SMIL
+  el.dispatchEvent(new Event(on ? "onscreen" : "offscreen"));
+}), { rootMargin: "120px 0px" });
+$$(".hero, .ticker, .case, .cell, .log__map, .nav__logo").forEach((el) => offscreenIO.observe(el));
+
+const lazyIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+  if (!e.isIntersecting) return;
+  lazyIO.unobserve(e.target); e.target._load && e.target._load();
+}), { rootMargin: "900px 0px" });
+
 /* ---------- Image slots: data-src="images/name" tries .jpg/.jpeg/.png/.webp ---------- */
 $$("[data-src]").forEach((slot) => {
   const base = slot.dataset.src;
@@ -528,7 +550,8 @@ $$("[data-src]").forEach((slot) => {
     img.onerror = () => tryNext(i + 1);
     img.src = base + exts[i];
   };
-  tryNext(0);
+  // load each photo only when it's about a screen away, so the first paint stays light
+  lazyIO.observe(slot); slot._load = () => tryNext(0);
 });
 
 /* ---------- Lightbox (case pages) ---------- */

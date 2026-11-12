@@ -736,3 +736,10 @@ html.menu-open .nav__clocks { opacity: 0; }
 .cs-back:hover .cs-back__arrow { transform: translateX(-4px); background: var(--ink); color: var(--lime); }
 .cs-back__idx { padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,.12); font-size: 10.5px; }
 .cs-back:hover .cs-back__idx { background: rgba(18,18,18,.1); }
+
+/* ---------- Performance: anything scrolled out of view stops animating ---------- */
+.is-offscreen, .is-offscreen *, .is-offscreen *::before, .is-offscreen *::after { animation-play-state: paused !important; }
+/* lighter frosted bar while scrolling */
+.nav.is-solid { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(243,242,236,.9); }
+/* hint the browser to keep moving parts on the GPU */
+.ticker__track, .pass, .menu__inner, .menu__wash, .cursor { will-change: transform; }

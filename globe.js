@@ -126,9 +126,10 @@ if (canvas) {
 
   // world pins are lonelier, so they get a bigger dot to stay visible
 const size = (p) => (p.type === "home" ? 0.1 : p.type === "lived" ? 0.075 : p.region === "world" ? 0.08 : 0.045);
-  createGlobe(canvas, {
-    devicePixelRatio: 2, width: width * 2, height: width * 2,
-    phi, theta, dark: 1, diffuse: 1.3, mapSamples: 18000, mapBrightness: 5.5,
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const globe = createGlobe(canvas, {
+    devicePixelRatio: dpr, width: width * dpr, height: width * dpr,
+    phi, theta, dark: 1, diffuse: 1.3, mapSamples: 14000, mapBrightness: 5.5,
     baseColor: [0.32, 0.32, 0.34], markerColor: [0.83, 1, 0.23], glowColor: [0.18, 0.18, 0.2],
     markers: PLACES.map((p) => ({ location: [p.lat, p.lng], size: size(p) })),
     onRender(state) {
@@ -144,10 +145,14 @@ const size = (p) => (p.type === "home" ? 0.1 : p.type === "lived" ? 0.075 : p.re
         theta = theta * 0.985 + 0.35 * 0.015;
       }
       state.phi = phi; state.theta = theta;
-      state.width = width * 2; state.height = width * 2;
+      state.width = width * dpr; state.height = width * dpr;
     },
   });
   requestAnimationFrame(() => canvas.classList.add("ready"));
+  // stop drawing the 3D globe while it's scrolled out of view (biggest smoothness win)
+  if (typeof globe.toggle === "function") {
+    new IntersectionObserver(([e]) => globe.toggle(e.isIntersecting), { rootMargin: "200px 0px" }).observe(canvas);
+  }
 
   canvas.addEventListener("pointerdown", (e) => { dragX = e.clientX; focus = null; canvas.setPointerCapture(e.pointerId); });
   canvas.addEventListener("pointermove", (e) => {
