@@ -1021,3 +1021,7 @@ html.menu-open .nav__clocks { opacity: 0; }
   .loader .cabin--bottom { bottom: calc(6.5vh + 34px); }
   .unmute { bottom: 6.5vh; }
 }
+
+/* arrow cursor also shows over the loading screen */
+.cursor { z-index: 2000; }
+@media (hover: hover) { .loader, .loader button { cursor: none; } }
