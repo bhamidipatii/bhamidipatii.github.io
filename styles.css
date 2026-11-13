@@ -1100,3 +1100,8 @@ body.is-wall .nav__clocks { display: none; }
   .br-lb__prev { left: calc(50% - 60px); } .br-lb__next { right: calc(50% - 60px); }
 }
 @media (hover: hover) { .br-lb, .br-lb button { cursor: none; } }
+
+/* flight log: the stop cards sit ABOVE the map, so they're easy to read and not under your thumb */
+.log__stage { display: flex; flex-direction: column; }
+.log__cards { order: -1; margin-top: 0; margin-bottom: 20px; }
+@media (max-width: 640px) { .log__cards { margin-top: 0; margin-bottom: 12px; } }
