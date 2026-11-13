@@ -31,6 +31,7 @@ if (navLinks) {
   html.classList.add("has-menu");
   const items = $$("a", navLinks).map((a) => ({
     href: a.getAttribute("href"),
+    newTab: a.target === "_blank",   // Work / About / Off the clock / B-Roll open as their own pages in a new tab
     label: a.textContent.replace(/ /g, " ").trim().replace(/^Off clock$/, "Off the clock"),
   }));
   const btn = document.createElement("button");
@@ -48,7 +49,7 @@ if (navLinks) {
     <div class="menu__inner">
       <div class="menu__top mono"><span>Navigate</span><span>(${String(items.length).padStart(2, "0")})</span></div>
       <nav class="menu__list">
-        ${items.map((it, i) => `<a class="menu__item" href="${it.href}"><span class="menu__num mono">0${i + 1}</span><span class="menu__mask"><span class="menu__label">${it.label}</span></span><span class="menu__arrow" aria-hidden="true">↗</span></a>`).join("")}
+        ${items.map((it, i) => `<a class="menu__item" href="${it.href}"${it.newTab ? ' target="_blank" rel="noopener"' : ""}><span class="menu__num mono">0${i + 1}</span><span class="menu__mask"><span class="menu__label">${it.label}</span></span><span class="menu__arrow" aria-hidden="true">↗</span></a>`).join("")}
       </nav>
       <div class="menu__foot">
         <span class="mono menu__kicker">Say hello</span>
@@ -86,7 +87,7 @@ if (navLinks) {
   shade.addEventListener("click", () => setOpen(false));
   addEventListener("keydown", (e) => { if (e.key === "Escape" && open) { setOpen(false); btn.focus(); } });
   // same-page links: close first (restarts smooth scroll), then the anchor handler below scrolls
-  $$(".menu__item", panel).forEach((a) => a.addEventListener("click", () => { if (a.getAttribute("href").startsWith("#")) setOpen(false); }));
+  $$(".menu__item", panel).forEach((a) => a.addEventListener("click", () => { if (a.getAttribute("href").startsWith("#") || a.target === "_blank") setOpen(false); }));
 }
 
 $$('a[href^="#"]').forEach((a) => {
@@ -141,8 +142,10 @@ function heroIn(opts = {}) {
   const sp = $(".scribble-path");
   if (sp) {
     const len = sp.getTotalLength();
-    gsap.set(sp, { strokeDasharray: len, strokeDashoffset: len });
-    tl.to(sp, { strokeDashoffset: 0, duration: 1, ease: "power2.inOut" }, 0.9);
+    // hidden until it draws: a round line-cap on an "empty" dash still paints a small lime dot
+    gsap.set(sp, { strokeDasharray: len, strokeDashoffset: len, visibility: "hidden" });
+    tl.set(sp, { visibility: "visible" }, 0.9)
+      .to(sp, { strokeDashoffset: 0, duration: 1, ease: "power2.inOut" }, 0.9);
   }
   return tl;
 }

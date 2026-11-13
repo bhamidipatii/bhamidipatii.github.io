@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <title>B-Roll · Aditya Bhamidipati</title>
+  <meta name="description" content="B-Roll: photos from the road by Aditya Bhamidipati, 2022 to 2026." />
+  <meta property="og:title" content="B-Roll · Aditya Bhamidipati" />
+  <meta property="og:description" content="B-Roll: photos from the road by Aditya Bhamidipati, 2022 to 2026." />
+  <script>try { if (sessionStorage.getItem("pt")) document.documentElement.classList.add("is-arriving"); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20261113120105" />
+</head>
+<body data-page="broll" class="is-wall">
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span>View</span></div>
+
+  <header class="nav is-solid">
+    <div class="wrap">
+      <a href="index.html" class="nav__logo" data-magnetic><i></i>aditya</a>
+      <div class="nav__clocks mono">
+        <span>BOM <b data-clock="Asia/Kolkata">--</b></span>
+        <span>SFO <b data-clock="America/Los_Angeles">--</b></span>
+      </div>
+      <nav class="nav__links">
+        <a href="index.html#journey">Journey</a>
+        <a href="work.html" target="_blank" rel="noopener">Work</a>
+        <a href="about.html" target="_blank" rel="noopener">About</a>
+        <a href="broll.html" target="_blank" rel="noopener">B-Roll</a>
+        <a href="offclock.html" target="_blank" rel="noopener">Off&nbsp;clock</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wall" data-wall data-cursor="Drag" aria-label="Photo wall. Scroll, swipe or drag to move around in any direction; click a photo to open it.">
+    <h1 class="sr-only">B-Roll: photos by Aditya Bhamidipati</h1>
+    <div class="wall__track" data-wall-track></div>
+  </main>
+  <p class="wall-hint mono" data-wall-hint aria-hidden="true"><span>Scroll or drag in any direction</span><i>↕ ↔</i></p>
+
+  <div class="br-lb" data-br-lb role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <figure class="br-lb__fig"><img alt="" /><figcaption class="mono"><span data-lb-num></span></figcaption></figure>
+    <button class="br-lb__btn br-lb__prev" data-lb-prev aria-label="Previous photo">←</button>
+    <button class="br-lb__btn br-lb__next" data-lb-next aria-label="Next photo">→</button>
+    <button class="br-lb__close mono" data-lb-close aria-label="Close">Close ✕</button>
+  </div>
+
+  
+
+  <div class="lightbox" role="dialog" aria-label="Image viewer"><img alt="" /><p class="mono"></p></div>
+  <div class="toast" role="status">Email copied ✓</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="main.js?v=20261113120105"></script>
+  <script src="broll.js?v=20261113120105"></script>
+</body>
+</html>

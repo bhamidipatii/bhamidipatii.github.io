@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <title>Off the clock · Aditya Bhamidipati</title>
+  <meta name="description" content="Off the clock: travel, photography, side builds, doodles, movies and fitness." />
+  <meta property="og:title" content="Off the clock · Aditya Bhamidipati" />
+  <meta property="og:description" content="Off the clock: travel, photography, side builds, doodles, movies and fitness." />
+  <script>try { if (sessionStorage.getItem("pt")) document.documentElement.classList.add("is-arriving"); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20261113120105" />
+</head>
+<body data-page="page">
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span>View</span></div>
+
+  <header class="nav is-solid">
+    <div class="wrap">
+      <a href="index.html" class="nav__logo" data-magnetic><i></i>aditya</a>
+      <div class="nav__clocks mono">
+        <span>BOM <b data-clock="Asia/Kolkata">--</b></span>
+        <span>SFO <b data-clock="America/Los_Angeles">--</b></span>
+      </div>
+      <nav class="nav__links">
+        <a href="index.html#journey">Journey</a>
+        <a href="work.html" target="_blank" rel="noopener">Work</a>
+        <a href="about.html" target="_blank" rel="noopener">About</a>
+        <a href="broll.html" target="_blank" rel="noopener">B-Roll</a>
+        <a href="offclock.html" target="_blank" rel="noopener">Off&nbsp;clock</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pg">
+    <section class="pg-top wrap">
+      <a class="cs-back" href="index.html" data-magnetic><span class="cs-back__arrow" aria-hidden="true">←</span><span>Home</span><span class="cs-back__idx mono">04 / 04</span></a>
+      <div class="pg-top__row">
+        <h1 class="cs-title" data-split="hero">Always <em>side-questing.</em></h1>
+        <p class="pg-lead">Side builds, the camera, the gym, the doodles and the movies. Everything here is interactive. Go on, poke it.</p>
+      </div>
+    </section>
+
+    <!-- ========== OFF THE CLOCK ========== -->
+    <section class="section wrap" id="offclock">
+      <div class="bento">
+        <!-- Globe -->
+        <div class="cell c-globe" data-reveal>
+          <div class="cell__head mono"><span>Travel &amp; photography</span><span>Drag to spin</span></div>
+          <h3>For the love of travel.</h3>
+          <p>I dreamt of earning just to see the world, then spent five years doing exactly that. From Ladakh to the Andamans, 40+ stops across the US, and a few more beyond. Found a second love in my camera along the way.</p>
+          <div class="globe-box">
+            <canvas class="globe-canvas" aria-label="Interactive globe with pins on places Aditya has lived and travelled"></canvas>
+            <div class="places-ui">
+              <p class="places-stats mono" data-stats></p>
+              <div class="places-tabs" data-tabs></div>
+              <ul class="places" data-places data-lenis-prevent></ul>
+              <p class="places-legend mono"><i></i>Lived / worked · tap a place to fly there</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ritual AI -->
+        <div class="cell c-ritual" data-reveal>
+          <div class="cell__head mono"><span>Side build</span><span class="hand" style="font-size:18px;text-transform:none;letter-spacing:0">Ritual AI</span></div>
+          <h3>Log workouts by voice.</h3>
+          <p>I hate touching my phone mid-set. So I built an Apple Watch app: say your workout, it parses the muscle groups and coaches the next move in your ears.</p>
+          <div class="ritual-screen">
+            <div class="ritual-top">
+              <button class="mic" data-mic aria-label="Play voice logging demo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg></button>
+              <div class="wave" data-wave></div>
+              <span class="mono" style="color:rgba(255,255,255,.5)">demo</span>
+            </div>
+            <div class="transcript" data-transcript></div>
+            <div class="parsed" data-parsed></div>
+          </div>
+        </div>
+
+        <!-- Doodle pad -->
+        <div class="cell c-art" data-reveal>
+          <div class="cell__head mono"><span>Art</span><span>Draw here</span></div>
+          <h3>Doodling since I was a kid.</h3>
+          <p>Digital now. It’s how I lock in and zone out. Your turn.</p>
+          <div class="pad" data-pad>
+            <canvas></canvas>
+            <div class="pad__hint hand">doodle something ✎</div>
+            <div class="pad__tools">
+              <button data-color="#121212" class="is-on" style="background:#121212" aria-label="Black pen"></button>
+              <button data-color="#3d2bff" style="background:#3d2bff" aria-label="Blue pen"></button>
+              <button data-color="#e5484d" style="background:#e5484d" aria-label="Red pen"></button>
+              <button class="clear" data-clear>clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photography -->
+        <a class="cell c-photo" href="broll.html" target="_blank" rel="noopener" data-cursor="B-Roll ↗" data-reveal>
+          <div class="viewfinder">
+            <div class="ph" data-src="images/play-photography" data-alt="Aditya with his camera in the snow"><img src="images/play-photography.jpg" alt="Aditya with his camera in the snow" loading="lazy" decoding="async" /><span></span></div>
+            <div class="vf-ui"><i></i><i></i><i></i><i></i><span class="focus"></span></div>
+            <div class="vf-top"><span class="rec">Always carrying</span><span>f/1.8</span></div>
+            <div class="vf-title">Through my lens →</div>
+            <div class="vf-bot"><span>1/250</span><span>ISO 100</span><span>b-roll ↗</span></div>
+            <div class="flash"></div>
+          </div>
+        </a>
+
+        <!-- Cinephile -->
+        <div class="cell c-cine" data-reveal>
+          <div class="cell__head mono"><span>Cinephile</span><span class="cine-prompt">Pick a side</span></div>
+          <!-- two halves of the poster: hover one, the other fades to black & white -->
+          <div class="cine-side cine-left">
+            <span class="cine-films mono">Baahubali · RRR · Eega</span>
+            <b class="cine-name">Rajamouli</b>
+          </div>
+          <div class="cine-side cine-right">
+            <span class="cine-films mono">Interstellar · Inception · The Prestige</span>
+            <b class="cine-name">Nolan</b>
+          </div>
+          <span class="cine-vs mono">&amp;</span>
+        </div>
+
+        <!-- Fitness -->
+        <div class="cell c-fit" data-reveal>
+          <div class="cell__head mono"><span>Fitness</span><span>Every day</span></div>
+          <h3>Working out and fitness</h3>
+          <p class="fit-word" style="margin-top:auto">It gave me <span data-fit-word>discipline</span></p>
+          <svg class="fit-ring" viewBox="0 0 74 74" aria-hidden="true"><circle class="bg" cx="37" cy="37" r="32"/><circle class="fg" cx="37" cy="37" r="32" data-fit-ring/></svg>
+        </div>
+      </div>
+    </section>
+
+    <a class="pg-next wrap" href="work.html" data-cursor="Next">
+      <span class="pg-next__k mono">Next page</span>
+      <span class="pg-next__t">Work <i aria-hidden="true">→</i></span>
+    </a>
+  </main>
+
+  <!-- ========== CONTACT ========== -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="board" data-board="SAY HELLO" aria-label="Say hello"></div>
+      <a class="footer__mail" href="mailto:abhamidipatii@gmail.com" data-copy="abhamidipatii@gmail.com" data-cursor="Copy">abhamidipatii@gmail.com</a>
+      <div><span class="footer__note hand">or let’s argue about Rajamouli vs Nolan →</span></div>
+      <div class="footer__row">
+        <nav>
+          <a href="https://www.linkedin.com/in/bhamidipatiii/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://www.instagram.com/bhamidipati_" target="_blank" rel="noopener">Instagram ↗</a>
+          <a href="https://vsco.co/bhamidipati-" target="_blank" rel="noopener">VSCO ↗</a>
+        </nav>
+        <span class="footer__clocks mono">BOM <b data-clock="Asia/Kolkata">--</b> · SFO <b data-clock="America/Los_Angeles">--</b></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" role="dialog" aria-label="Image viewer"><img alt="" /><p class="mono"></p></div>
+  <div class="toast" role="status">Email copied ✓</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="main.js?v=20261113120105"></script>
+  <script type="module" src="globe.js?v=20261113120105"></script>
+</body>
+</html>

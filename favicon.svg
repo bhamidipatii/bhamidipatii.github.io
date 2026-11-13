@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- the black "picker" shape from the morphing mark next to the name (round on three corners, nearly square on one) -->
+  <style>path{fill:#121212}@media (prefers-color-scheme:dark){path{fill:#f3f2ec}}</style>
+  <path d="M16 2A14 14 0 0 1 30 16V27.8A2.2 2.2 0 0 1 27.8 30H16A14 14 0 0 1 2 16A14 14 0 0 1 16 2Z"/>
+</svg>
