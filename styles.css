@@ -1105,3 +1105,71 @@ body.is-wall .nav__clocks { display: none; }
 .log__stage { display: flex; flex-direction: column; }
 .log__cards { order: -1; margin-top: 0; margin-bottom: 20px; }
 @media (max-width: 640px) { .log__cards { margin-top: 0; margin-bottom: 12px; } }
+
+/* =========================================================
+   WORK as a big index: names on the left, the open job on the right
+   ========================================================= */
+.wx { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(20px, 4vw, 64px); align-items: stretch; }
+.wx-row { border-top: 1px solid var(--line); }
+.wx-row:last-child { border-bottom: 1px solid var(--line); }
+.wx-row__head { display: grid; grid-template-columns: 40px 1fr auto; align-items: start; gap: 12px; padding: 18px 0 16px; color: var(--muted); }
+.wx-row__idx, .wx-row__yr { padding-top: .9em; transition: color .4s var(--ease); }
+.wx-row__name { display: block; }
+.wx-row__name h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.03em; line-height: .95; font-size: clamp(40px, 5.4vw, 86px);
+  color: rgba(18,18,18,.2); font-variation-settings: "wdth" 88; transition: color .45s var(--ease), transform .6s var(--ease); }
+.wx-row__sub { display: block; margin-top: 8px; color: var(--accent); font-weight: 500; opacity: 0; transform: translateY(-4px); transition: opacity .4s, transform .5s var(--ease); }
+.wx-row__head:hover h3 { color: rgba(18,18,18,.5); }
+.wx-row.is-on .wx-row__head { color: var(--ink); }
+.wx-row.is-on h3 { color: var(--ink); transform: translateX(10px); }
+.wx-row.is-on .wx-row__sub { opacity: 1; transform: translateX(10px); }
+.wx-row.is-on .wx-row__head:hover h3 { color: var(--accent); }
+.wx-row__body { display: none; }
+
+.wx-title { font-family: var(--display); font-weight: 600; font-size: clamp(20px, 1.7vw, 26px); letter-spacing: -.02em; line-height: 1.1; }
+.wx-beat span { display: block; color: var(--muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 3px; }
+.wx-beat p { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+.wx .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.wx-btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; background: var(--ink); color: var(--paper);
+  font-weight: 500; white-space: nowrap; transition: background .3s, color .3s, transform .4s var(--ease); }
+.wx-btn span { transition: transform .4s var(--ease); }
+.wx-btn:hover { background: var(--lime); color: var(--ink); }
+.wx-btn:hover span { transform: translate(2px, -2px); }
+
+.wx-side { position: relative; }   /* exactly as tall as the list of names */
+.wx-frame { position: relative; height: 100%; min-height: 560px; border-radius: 22px; overflow: hidden; background: var(--card); border: 1px solid var(--line); }
+.wx-pic { position: absolute; inset: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 16px; padding: 14px 14px 20px;
+  opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .5s var(--ease), transform .7s var(--ease); }
+.wx-pic.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.wx-pic__media { display: grid; grid-template-columns: 1fr; gap: 10px; min-height: 0; padding: 10px; border-radius: 16px; background: var(--tint); }
+.wx-pic__media img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; min-height: 0; }
+.wx-pic__txt { display: grid; gap: 12px; padding: 0 8px; }
+.wx-pic__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.wx .case__art { aspect-ratio: auto; height: 100%; padding-top: 0; border-bottom: 0; border-radius: 12px; background: rgba(255,255,255,.55); }
+.wx .case__art .label { display: none; }
+/* the old hover tricks play while a job is open */
+.wx .is-on .cap-l { transform: translateX(-16px); }
+.wx .is-on .cap-r { transform: translateX(16px); }
+.wx .is-on .gran { opacity: 1; transform: translate(var(--x), var(--y)); }
+.wx .is-on .wafer-spin { transform: rotate(30deg); }
+.wx .is-on .die.lit { animation-duration: 1.6s; }
+.wx .is-on .scanline { animation-duration: 1.8s !important; }
+.wx .is-on .ecg { animation-duration: 1.3s; }
+.wx-pic .wx-beat:nth-of-type(2) { display: none; }   /* one story beat in the panel keeps the art big; the case page has the rest */
+
+/* phones: no side panel, the job opens in place */
+@media (max-width: 860px) {
+  .wx { grid-template-columns: 1fr; }
+  .wx-side { display: none; }
+  .wx-row__head { grid-template-columns: 30px 1fr auto; padding: 16px 0 14px; }
+  .wx-row.is-on h3, .wx-row.is-on .wx-row__sub { transform: none; }
+  .wx-row.is-on .wx-row__body { display: grid; gap: 14px; padding: 0 0 22px; animation: wxIn .6s var(--ease) both; }
+  .wx-row__art { height: 200px; padding: 10px; border-radius: 16px; background: var(--tint); }
+  .wx-row__body .wx-btn { justify-self: start; }
+}
+@keyframes wxIn { from { opacity: 0; transform: translateY(-8px); } }
+
+/* flight log: stop cards are buttons that fly the plane there */
+.stop { cursor: pointer; }
+.stop:hover { opacity: 1; border-color: var(--ink); transform: translateY(-3px); }
+.stop:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (hover: hover) { .stop { cursor: none; } }

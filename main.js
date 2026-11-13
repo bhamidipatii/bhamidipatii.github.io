@@ -300,6 +300,68 @@ function runIntro() {
   loader.addEventListener("click", () => { if (!soundOn && ensureAudio()) { setSound(true); sfxLand(0.8); } });
 }
 
+/* ---------- Work index: hover / click a name to expand it, click the open one again to read the case ---------- */
+(() => {
+  const list = $(".wx-list");
+  if (!list) return;
+  const wrap = $(".wx"), rows = $$(".wx-row", list), pics = $$(".wx-pic");
+  const wide = matchMedia("(min-width: 861px)");
+  let cur = -1;
+  const set = (i) => {
+    if (i === cur) return;
+    const keep = rows[i].getBoundingClientRect().top;          // phones: keep the tapped name where it is
+    cur = i;
+    rows.forEach((r, k) => {
+      const on = k === i;
+      r.classList.toggle("is-on", on);
+      const h = r.querySelector(".wx-row__head");
+      h.setAttribute("aria-expanded", String(on));
+      h.dataset.cursor = on ? "Open" : "Expand";
+    });
+    pics.forEach((p, k) => p.classList.toggle("is-on", k === i));
+    if (!wide.matches) {
+      const d = rows[i].getBoundingClientRect().top - keep;
+      if (Math.abs(d) > 1) lenis ? lenis.scrollTo(lenis.scroll + d, { immediate: true, force: true }) : scrollBy(0, d);
+      ScrollTrigger.refresh();
+    }
+  };
+  set(0);
+  // click: a closed name only expands; the open one goes to its case page (capture runs before the page-transition handler)
+  rows.forEach((r, i) => r.addEventListener("click", (ev) => {
+    if (!ev.target.closest(".wx-row__head") || i === cur) return;
+    ev.preventDefault(); ev.stopPropagation(); set(i);
+  }, true));
+  // desktop hover: only real mouse movement counts (names sliding under a still cursor while scrolling don't)
+  let lx = -1, ly = -1;
+  rows.forEach((r, i) => r.addEventListener("pointermove", (ev) => {
+    if (!wide.matches || ev.pointerType !== "mouse" || (ev.clientX === lx && ev.clientY === ly)) return;
+    lx = ev.clientX; ly = ev.clientY; set(i);
+  }));
+  // desktop scroll: the section holds while you scroll through the jobs one by one, then lets the page carry on
+  ScrollTrigger.matchMedia({
+    "(min-width: 861px)": () => {
+      let last = -1;
+      const step = (i) => { if (i !== last) { last = i; set(i); } };   // hover wins until the scroll reaches the next job
+      const sec = wrap.closest("section"), head = sec && sec.querySelector(".head");
+      const headTop = head ? head.getBoundingClientRect().top - sec.getBoundingClientRect().top : 0;
+      const whole = head ? wrap.getBoundingClientRect().bottom - head.getBoundingClientRect().top : Infinity;
+      const opts = { end: () => "+=" + Math.round(innerHeight * 0.5 * rows.length), pin: true, refreshPriority: -1,
+        onUpdate: (st) => step(Math.min(rows.length - 1, Math.floor(st.progress * rows.length))) };
+      // refreshPriority -1: measured after the flight log's pin above it, so this one starts in the right place
+      if (whole <= innerHeight - 130) {
+        // heading + list + panel all fit: hold the whole section with the heading just under the top bar
+        ScrollTrigger.create({ trigger: sec, start: () => "top " + Math.round(106 - headTop) + "px", ...opts });
+      } else if (wrap.offsetHeight <= innerHeight - 120) {
+        ScrollTrigger.create({ trigger: wrap, start: "top 100px", ...opts });
+      } else {   // very short windows: no hold, the name crossing the middle of the screen opens
+        ScrollTrigger.create({ trigger: list, start: "top 80%", end: "bottom 20%", refreshPriority: -1, onUpdate: () => {
+          let i = 0; rows.forEach((r, k) => { if (r.getBoundingClientRect().top < innerHeight * 0.5) i = k; }); step(i);
+        } });
+      }
+    },
+  });
+})();
+
 /* ---------- Page transitions ---------- */
 function pageArrive() {
   if (!document.documentElement.classList.contains("is-arriving")) return Promise.resolve();
@@ -493,10 +555,28 @@ if (route) {
     const tl = gsap.timeline({ defaults: { ease: "none" } })
       .to(route, { strokeDashoffset: 0 }, 0)
       .to("#plane", { motionPath: { path: route, align: route, alignOrigin: [0.5, 0.5], autoRotate: true } }, 0);
-    ScrollTrigger.create({
+    const logST = ScrollTrigger.create({
       trigger: ".log__pin", pin: true, start: "top top", end: () => "+=" + Math.round(innerHeight * 1.8),
       scrub: 0.8, animation: tl, anticipatePin: 1,
       onUpdate: (s) => setActive(s.progress),
+    });
+
+    // click a stop card: the page glides to that stop, so the plane flies the real route there
+    const flyTo = (card) => {
+      const i = +card.dataset.stop;
+      const p = i === 0 ? 0.001 : Math.min(1, marks[i] + 0.004);
+      const y = logST.start + (logST.end - logST.start) * p;
+      const from = lenis ? lenis.scroll : scrollY;
+      const dur = Math.min(2.4, 0.9 + Math.abs(y - from) / 1400);
+      lenis ? lenis.scrollTo(y, { duration: dur, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) }) : scrollTo({ top: y, behavior: "smooth" });
+    };
+    stops.forEach((card) => {
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", "Fly to " + card.querySelector("h4").textContent);
+      card.dataset.cursor = "Fly here";
+      card.addEventListener("click", () => flyTo(card));
+      card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flyTo(card); } });
     });
   }
 }
@@ -608,7 +688,7 @@ if (fitWord) {
   const words = ["discipline", "an identity", "confidence", "peace of mind", "clarity", "my escape"];
   let k = 0;
   const cycle = () => {
-    gsap.fromTo(fitRing, { strokeDashoffset: 201 }, { strokeDashoffset: 0, duration: 2.2, ease: "power1.inOut" });
+    if (fitRing) gsap.fromTo(fitRing, { strokeDashoffset: 201 }, { strokeDashoffset: 0, duration: 2.2, ease: "power1.inOut" });
     gsap.delayedCall(2.4, () => {
       k = (k + 1) % words.length;
       gsap.to(fitWord, { yPercent: -60, opacity: 0, duration: 0.25, ease: "power2.in", onComplete: () => {
@@ -618,7 +698,7 @@ if (fitWord) {
       } });
     });
   };
-  if (!reduceMotion) cycle(); else gsap.set(fitRing, { strokeDashoffset: 0 });
+  if (!reduceMotion) cycle(); else if (fitRing) gsap.set(fitRing, { strokeDashoffset: 0 });
 }
 
 /* ---------- Watch ticks ---------- */
@@ -742,4 +822,5 @@ pageArrive().then(() => {
   }
 });
 runIntro();
-addEventListener("load", () => ScrollTrigger.refresh());
+ScrollTrigger.sort();   // pinned sections are measured top-to-bottom (flight log before Work)
+addEventListener("load", () => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
