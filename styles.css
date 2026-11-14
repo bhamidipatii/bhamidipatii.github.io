@@ -1173,3 +1173,44 @@ body.is-wall .nav__clocks { display: none; }
 .stop:hover { opacity: 1; border-color: var(--ink); transform: translateY(-3px); }
 .stop:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (hover: hover) { .stop { cursor: none; } }
+
+/* =========================================================
+   WORK on phones: name tabs + a sideways swipe deck (no page jumps)
+   ========================================================= */
+.wxm { display: none; }
+@media (max-width: 860px) {
+  .wx { display: none; }
+  .wxm { display: block; margin: 0 calc(var(--gutter) * -1); }
+  .wxm-tabs { display: flex; gap: 6px; padding: 0 var(--gutter) 14px; overflow-x: auto; scrollbar-width: none; }
+  .wxm-tabs::-webkit-scrollbar { display: none; }
+  .wxm-tab { flex: none; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); font-weight: 500; font-size: 14px; color: var(--muted);
+    transition: background .35s var(--ease), color .35s, border-color .35s; }
+  .wxm-tab.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .wxm-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); padding: 4px var(--gutter) 10px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .wxm-track::-webkit-scrollbar { display: none; }
+  .wxm-card { flex: 0 0 84%; scroll-snap-align: start; display: flex; flex-direction: column; border-radius: 20px; overflow: hidden;
+    background: var(--card); border: 1px solid var(--line); box-shadow: 0 18px 36px -26px rgba(0,0,0,.45);
+    transform: scale(.94); opacity: .55; transform-origin: 50% 60%; transition: transform .55s var(--ease), opacity .45s; }
+  .wxm-card.is-on { transform: none; opacity: 1; }
+  .wxm-art { height: 190px; padding: 10px; background: var(--tint); }
+  .wxm-art .case__art { aspect-ratio: auto; height: 100%; padding-top: 0; border-bottom: 0; border-radius: 12px; background: rgba(255,255,255,.55); }
+  .wxm-art .case__art .label { display: none; }
+  .wxm-body { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; flex: 1; }
+  .wxm-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .wxm-card h3 { font-family: var(--display); font-weight: 700; font-size: 34px; letter-spacing: -.03em; line-height: .95; margin-top: 2px; }
+  .wxm-role { color: var(--accent); font-weight: 500; }
+  .wxm-title { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; }
+  .wxm-beat { font-size: 14px; line-height: 1.5; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .wxm-card .wx-btn { margin-top: auto; align-self: flex-start; }
+  .wxm-body .wx-btn { margin-top: 10px; }
+  .wxm-bar { height: 2px; margin: 8px var(--gutter) 0; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .wxm-bar i { display: block; height: 100%; width: 25%; background: var(--ink); border-radius: 2px; transition: transform .45s var(--ease); }
+  /* the card in focus plays its 'open' animation */
+  .wxm .is-on .cap-l { transform: translateX(-16px); }
+  .wxm .is-on .cap-r { transform: translateX(16px); }
+  .wxm .is-on .gran { opacity: 1; transform: translate(var(--x), var(--y)); }
+  .wxm .is-on .wafer-spin { transform: rotate(30deg); }
+  .wxm .is-on .die.lit { animation-duration: 1.6s; }
+  .wxm .is-on .ecg { animation-duration: 1.3s; }
+}

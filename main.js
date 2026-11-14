@@ -362,6 +362,34 @@ function runIntro() {
   });
 })();
 
+/* ---------- Work on phones: swipe the deck or tap a name ---------- */
+(() => {
+  const deck = $(".wxm");
+  if (!deck) return;
+  const track = $(".wxm-track", deck), cards = $$(".wxm-card", deck), tabs = $$(".wxm-tab", deck), bar = $(".wxm-bar i", deck);
+  let cur = -1;
+  const set = (i) => {
+    if (i === cur) return;
+    cur = i;
+    cards.forEach((c, k) => c.classList.toggle("is-on", k === i));
+    tabs.forEach((t, k) => { t.classList.toggle("is-on", k === i); t.setAttribute("aria-selected", String(k === i)); });
+    bar.style.transform = `translateX(${i * 100}%)`;
+    const t = tabs[i]; t.parentElement.scrollTo({ left: t.offsetLeft - 20, behavior: "smooth" });
+  };
+  const nearest = () => {
+    const x = track.scrollLeft;
+    let best = 0, d = Infinity;
+    cards.forEach((c, k) => { const dd = Math.abs(c.offsetLeft - track.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft) - x); if (dd < d) { d = dd; best = k; } });
+    return best;
+  };
+  let raf = 0;
+  track.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => set(nearest())); }, { passive: true });
+  const go = (i) => track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft), behavior: "smooth" });
+  tabs.forEach((t, i) => t.addEventListener("click", () => { set(i); go(i); }));
+  cards.forEach((c, i) => c.addEventListener("click", (ev) => { if (i !== cur && !ev.target.closest("a")) { set(i); go(i); } }));
+  set(0);
+})();
+
 /* ---------- Page transitions ---------- */
 function pageArrive() {
   if (!document.documentElement.classList.contains("is-arriving")) return Promise.resolve();
