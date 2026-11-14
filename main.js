@@ -366,14 +366,13 @@ function runIntro() {
 (() => {
   const deck = $(".wxm");
   if (!deck) return;
-  const track = $(".wxm-track", deck), cards = $$(".wxm-card", deck), tabs = $$(".wxm-tab", deck), bar = $(".wxm-bar i", deck);
+  const track = $(".wxm-track", deck), cards = $$(".wxm-card", deck), tabs = $$(".wxm-tab", deck);
   let cur = -1;
   const set = (i) => {
     if (i === cur) return;
     cur = i;
     cards.forEach((c, k) => c.classList.toggle("is-on", k === i));
     tabs.forEach((t, k) => { t.classList.toggle("is-on", k === i); t.setAttribute("aria-selected", String(k === i)); });
-    bar.style.transform = `translateX(${i * 100}%)`;
     const t = tabs[i]; t.parentElement.scrollTo({ left: t.offsetLeft - 20, behavior: "smooth" });
   };
   const nearest = () => {
